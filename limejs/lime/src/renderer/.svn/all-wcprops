@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/renderer
+END
+renderer.js
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/renderer/renderer.js
+END
+canvas.js
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/renderer/canvas.js
+END
+dom.js
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/renderer/dom.js
+END
+webgl.js
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/renderer/webgl.js
+END

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Performance Test</title>
+<style>
+* {margin:0;padding:0;line-height:1;} /* reset */
+html,body {width:100%;height:100%;}
+#container {position:absolute;width:320px;height:480px;}
+</style>
+<script type="text/javascript" src="../benchmark.js"></script>
+<script type="text/javascript" src="craftyjs-min.js"></script>
+</head>
+<body>
+<div id="container" class="container"></div>
+<script type="text/javascript">
+window.onload = function() {
+	var htParam = queryString();
+	var mode = htParam.mode || "canvas";
+	var countObject = htParam.count || 100;
+	var itemWidth = 129.4;
+	var itemHeight = 165;
+	var layerWidth = 320;
+	var layerHeight = 480;
+	var image = "http://jindo.dev.naver.com/collie/img/small/yame_walk.png";
+	var limit = 200;
+    var realFrame = 0;
+    var aItems = [];
+    var fps = 60;
+    
+    Crafty.FPS = fps;
+    Crafty.init(layerWidth, layerHeight);
+    
+    if (mode == "canvas") {
+    	Crafty.canvas.init();
+    }
+    
+    Crafty.sprite(itemWidth, itemHeight, image, {
+    	normal: [0, 0]
+	});
+	
+	Crafty.scene("main", function () {
+		for (var i = 0; i < countObject; i++) {
+			Crafty.e("2D, " + (mode == "canvas" ? "Canvas" : "DOM") + ", normal, SpriteAnimation").
+				attr({
+					x: Math.round(Math.random() * (layerWidth - itemWidth)),
+					y: Math.round(Math.random() * (layerHeight - itemHeight)),
+					w: itemWidth,
+					h: itemHeight
+				}).
+				animate("play", 0, 0, 8).
+				animate("play", 32, -1).
+				bind("EnterFrame", function () {
+					var nX = this.x + 1;
+						
+					if (nX > layerWidth - (itemWidth + 50)) {
+						nX = 0;
+					}
+					
+					this.x = nX;
+				});
+		}
+		
+		Crafty.e("2D,DOM,FPS,Text").
+			attr({maxValues:10}).
+			bind("MessureFPS",function(fps){
+	    		this.text("FPS" + fps.value); //Display Current FPS
+	    	});
+    });
+    
+    
+    Crafty.load([image], function () {
+		Crafty.scene("main"); //when everything is loaded, run the main scene
+	});
+};
+</script>
+</body>
+</html>
