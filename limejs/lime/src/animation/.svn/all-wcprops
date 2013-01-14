@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/animation
+END
+sequence.js
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/animation/sequence.js
+END
+moveto.js
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/animation/moveto.js
+END
+loop.js
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/animation/loop.js
+END
+animation.js
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/animation/animation.js
+END
+colorto.js
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/animation/colorto.js
+END
+scaleby.js
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/animation/scaleby.js
+END
+spawn.js
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/animation/spawn.js
+END
+rotateby.js
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/animation/rotateby.js
+END
+scaleto.js
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/animation/scaleto.js
+END
+delay.js
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/animation/delay.js
+END
+rotateto.js
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/animation/rotateto.js
+END
+resize.js
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/animation/resize.js
+END
+moveby.js
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/animation/moveby.js
+END
+fadeto.js
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/animation/fadeto.js
+END
+keyframeanimation.js
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/yorky/!svn/ver/84590/mini/Collie/test/benchmark/limejs/lime/src/animation/keyframeanimation.js
+END

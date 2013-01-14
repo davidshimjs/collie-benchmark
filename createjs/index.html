@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Performance Test</title>
+<style>
+* {margin:0;padding:0;line-height:1;} /* reset */
+html,body {width:100%;height:100%;}
+#container {position:absolute;width:320px;height:480px;}
+.printTime ul {margin:15px;padding:15px;}
+.printTime ul li {list-style-type:disc;font:0.8em Helvetica;}
+</style>
+<script type="text/javascript" src="../benchmark.js"></script>
+<script type="text/javascript" src="preloadjs-0.2.0.min.js"></script>
+<script type="text/javascript" src="easeljs-0.5.0.min.js"></script>
+</head>
+<body>
+<canvas id="container"></canvas>
+<script type="text/javascript">
+window.onload = function() {
+	var htParam = queryString();
+	var countObject = htParam.count || 100;
+	var itemWidth = 129.4;
+	var itemHeight = 165;
+	var layerWidth = 320;
+	var layerHeight = 480;
+	var image = "http://jindo.dev.naver.com/collie/img/small/yame_walk.png";
+	var limit = 200;
+    var realFrame = 0;
+    var aItems = [];
+    var fps = 60;
+    
+    var canvas = document.getElementById("container");
+    canvas.width = layerWidth;
+    canvas.height = layerHeight;
+    var stage = new createjs.Stage(canvas);
+    var ss = new createjs.SpriteSheet({
+    	animations: {
+    		normal: [0, 8, "normal", 4]
+    	},
+    	images: [image],
+    	frames: {
+			"regX" : 0,
+			"regY" : 0,
+			"count" : 9,
+			"width" : itemWidth,
+			"height" : itemHeight
+    	}
+    });
+    
+	for (var i = 0; i < countObject; i++) {
+		var item = new createjs.BitmapAnimation(ss);
+        item.x = Math.round(Math.random() * (layerWidth - itemWidth));
+        item.y = Math.round(Math.random() * (layerHeight - itemHeight));
+        item.width = itemWidth;
+        item.height = itemHeight;
+        item.gotoAndPlay("normal");
+        aItems.push(item);
+	}
+    
+	// grab canvas width and height for later calculations:
+	w = canvas.width;
+	h = canvas.height;
+	assets = [];
+	manifest = [{
+		src : image,
+		id : "yame"
+	}];
+	loader = new createjs.PreloadJS();
+	loader.useXHR = false;
+	// XHR loading is not reliable when running locally.
+	loader.onFileLoad = function (e) {
+		assets.push(e);
+	};
+	loader.onComplete = function (e) {
+		for (var i = 0; i < aItems.length; i++) {
+			stage.addChild(aItems[i]);
+		}
+		
+		var startTime = (+new Date());
+		createjs.Ticker.setFPS(fps);
+		createjs.Ticker.addListener(function () {
+			realFrame++;
+			
+			for (var i = 0; i < aItems.length; i++) {
+				var nX = aItems[i].x + 1;
+					
+				if (nX > layerWidth - (itemWidth + 50)) {
+					nX = 0;
+				}
+				
+				aItems[i].x = nX;
+			}
+		
+			stage.update();
+			
+			if (realFrame > limit) {
+				var nFPS = realFrame / (((+new Date()) - startTime) / 1000);
+				createjs.Ticker.setPaused(true);
+				
+				var elDiv = document.createElement("div");
+				elDiv.style.position = "absolute";
+				elDiv.style.top = 0;
+				elDiv.style.left = 0;
+				elDiv.style.backgroundColor = "#ffffff";
+				elDiv.style.width = "320px";
+				elDiv.style.height = "480px";
+				elDiv.style.zIndex = 9999;
+				elDiv.innerHTML = nFPS;
+				document.body.appendChild(elDiv);
+			}
+		});
+	};
+	
+	loader.loadManifest(manifest);
+	stage.autoClear = true;
+};
+</script>
+</body>
+</html>

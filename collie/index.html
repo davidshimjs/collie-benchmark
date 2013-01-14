@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Performance Test</title>
+<style>
+* {margin:0;padding:0;line-height:1;} /* reset */
+html,body {width:100%;height:100%;}
+#container {position:absolute;width:320px;height:480px;}
+</style>
+<script type="text/javascript" src="../benchmark.js"></script>
+<script type="text/javascript" src="collie.min.js"></script>
+</head>
+<body>
+<div id="container" class="container">
+</div>
+<script type="text/javascript">
+// 설정 값 구하기
+var htParam = queryString();
+var fps = typeof htParam.fps != "undefined" ? htParam.fps : 60;
+var mode = typeof htParam.mode != "undefined" ? htParam.mode : "auto";
+var countObject = typeof htParam.count != "undefined" ? htParam.count : 100;
+var limit = 300;
+
+// mode 설정
+collie.Renderer.DEBUG_RENDERING_MODE = mode;
+
+// canvas 초기화
+var oLayer = new collie.Layer({
+	width : 320,
+	height : 480
+});
+collie.Renderer.addLayer(oLayer);
+collie.Renderer.load(document.getElementById("container"));
+
+collie.ImageManager.addImages({
+	sample : "http://jindo.dev.naver.com/collie/img/small/yame_walk.png"
+}, function () {
+	var nWidth = 129.4;
+	var nHeight = 165;
+	var realFrame = 0;
+	
+	// 초기화
+	for (var col = 0; col < countObject; col++) {
+		var item = new collie.MovableObject({
+			width : nWidth,
+			height : nHeight,
+			spriteX : 0,
+			positionRepeat: true,
+			rangeX : [0, 320 - (nWidth + 50)],
+			velocityX : 60,
+			x : Math.round(Math.random() * (oLayer.option("width") - nWidth)),
+			y : Math.round(Math.random() * (oLayer.option("height") - nHeight)),
+			backgroundImage : "sample" 
+		}).addTo(oLayer);
+		
+		collie.Timer.cycle(item, "15fps", {
+			to : 8
+		});
+	}
+	
+	var startTime = (+new Date());
+	collie.Renderer.start(1000 / fps, function (htInfo) {
+		realFrame++;
+		
+		if (htInfo.frame > limit) {
+			var nFPS = realFrame / (((+new Date()) - startTime) / 1000);
+			collie.Renderer.stop();
+			
+			var elDiv = document.createElement("div");
+			elDiv.style.position = "absolute";
+			elDiv.style.top = 0;
+			elDiv.style.left = 0;
+			elDiv.style.backgroundColor = "#ffffff";
+			elDiv.style.width = "320px";
+			elDiv.style.height = "480px";
+			elDiv.style.zIndex = 9999;
+			elDiv.innerHTML = nFPS;
+			document.body.appendChild(elDiv);
+		}
+	});	
+});
+</script>
+</body>
+</html>

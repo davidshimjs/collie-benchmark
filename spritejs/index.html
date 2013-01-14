@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Performance Test</title>
+<style>
+* {margin:0;padding:0;line-height:1;} /* reset */
+html,body {width:100%;height:100%;}
+#container {position:absolute;width:320px;height:480px;}
+</style>
+<script type="text/javascript" src="../benchmark.js"></script>
+<script type="text/javascript" src="sprite.js"></script>
+<body>
+<script type="text/javascript">
+	var htParam = queryString();
+	var num = htParam.count || 100;
+	var limit = 200;
+    var realFrame = 0;
+    var fps = 60;
+    var mode = htParam.mode || "canvas";
+	var yame_walk = "http://jindo.dev.naver.com/collie/img/small/yame_walk.png";
+    var game_height = 480;
+    var game_width = 320;
+    var w = 129.4;
+    var h = 165;
+    var scene = sjs.Scene({
+    	w : game_width,
+    	h : game_height,
+    	useCanvas : mode == "canvas" ? true : false,
+    	autoPause : true
+    });
+    
+    scene.loadImages([ yame_walk ], function() {
+    	var yames = sjs.List();
+    	var l = -w;
+	    var cycle = scene.Cycle([
+			[(l = l + w), 0, 4],
+			[(l = l + w), 0, 4],
+			[(l = l + w), 0, 4],
+			[(l = l + w), 0, 4],
+			[(l = l + w), 0, 4],
+			[(l = l + w), 0, 4],
+			[(l = l + w), 0, 4],
+			[(l = l + w), 0, 4]
+		]);
+		
+    	for (var i = 0; i < num; i++) {
+    		var yame = scene.Sprite(yame_walk);
+			var x = Math.round(Math.random() * (game_width - (w + 50)));
+			var y = Math.round(Math.random() * (game_height - h));
+	    	yame.position(x, y);
+	    	yame.size(w, h);
+		    cycle.addSprite(yame);
+		    yame.setVelocity(1, 0);
+		    yames.add(yame);
+    	}
+
+	    var ticker = scene.Ticker(function() {
+			// 실제로 그린 프레임 수
+			if (!ticker.skipPaint && !ticker.disableUpdate) {
+				realFrame++;
+			}
+			
+	    	cycle.next(ticker.lastTicksElapsed);
+	    	var yame;
+	    	
+	    	while (yame = yames.iterate()) {
+				yame.applyXVelocity();
+				var x = yame.x;
+				
+				if (x > game_width - (w + 50)) {
+					x = 0;
+					yame.setX(x);
+				}
+				
+				yame.update();
+			}
+			
+			if (realFrame > limit) {
+				var nFPS = realFrame / (((+new Date()) - startTime) / 1000);
+				ticker.pause();
+				
+				var elDiv = document.createElement("div");
+				elDiv.style.position = "absolute";
+				elDiv.style.top = 0;
+				elDiv.style.left = 0;
+				elDiv.style.backgroundColor = "#ffffff";
+				elDiv.style.width = "320px";
+				elDiv.style.height = "480px";
+				elDiv.style.zIndex = 9999;
+				elDiv.innerHTML = nFPS;
+				document.body.appendChild(elDiv);
+			}
+	    }, {
+	    	useAnimationFrame : true
+	    });
+
+		var startTime = (+new Date());	    
+	    ticker.run();
+    });
+</script>
+</body>
+</html>

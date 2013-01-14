@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Performance Test</title>
+<style>
+* {margin:0;padding:0;line-height:1;} /* reset */
+html,body {width:100%;height:100%;}
+#container {position:absolute;width:320px;height:480px;}
+.printTime ul {margin:15px;padding:15px;}
+.printTime ul li {list-style-type:disc;font:0.8em Helvetica;}
+</style>
+<script type="text/javascript" src="../benchmark.js"></script>
+<script type="text/javascript" src="enchant.min.js"></script>
+</head>
+<body>
+<div id="enchant-stage" class="container">
+</div>
+<script type="text/javascript">
+enchant();
+
+window.onload = function() {
+	var htParam = queryString();
+	var countObject = htParam.count || 100;
+	var itemWidth = 129.4;
+	var itemHeight = 165;
+	var layerWidth = 320;
+	var layerHeight = 480;
+	var image = "http://jindo.dev.naver.com/collie/img/small/yame_walk.png";
+	var limit = 200;
+    var realFrame = 0;
+    var aItems = [];
+    var fps = 60;
+    
+    var game = new enchant.Core(layerWidth, layerHeight);
+    game.fps = fps;
+    game.preload(image);
+
+    game.onload = function() {
+		for (var i = 0; i < countObject; i++) {
+	        var item = new enchant.Sprite(itemWidth, itemHeight);
+	        item.x = Math.round(Math.random() * (layerWidth - itemWidth));
+	        item.y = Math.round(Math.random() * (layerHeight - itemHeight));
+	        item.width = itemWidth;
+	        item.height = itemHeight;
+	        item.image = game.assets[image];
+	        item.frame = 0;
+	        item.addEventListener('enterframe', function () {
+				var nX = this.x + 1;
+				
+				if (nX > layerWidth - (itemWidth + 50)) {
+					nX = 0;
+				}
+				
+				this.x = nX;
+				
+				// sprite animation
+				if (realFrame % 4 == 0) {
+					var nFrame = this.frame + 1;
+					
+					if (nFrame > 9) {
+						nFrame = 0;
+					}
+					
+					this.frame = nFrame;
+				}
+			});
+			
+        	game.rootScene.addChild(item);
+	        aItems.push(item);
+		}
+    };
+    
+    game.rootScene.addEventListener("enterframe", function () {
+    	realFrame++;
+    	
+		if (game.frame > limit) {
+			var nFPS = game.frame / (((+new Date()) - startTime) / 1000);
+			game.stop();
+			
+			var elDiv = document.createElement("div");
+			elDiv.style.position = "absolute";
+			elDiv.style.top = 0;
+			elDiv.style.left = 0;
+			elDiv.style.backgroundColor = "#ffffff";
+			elDiv.style.width = "320px";
+			elDiv.style.height = "480px";
+			elDiv.innerHTML = nFPS;
+			elDiv.style.zIndex = 9999;
+			document.body.appendChild(elDiv);
+		}
+    });
+    
+    var startTime = (+new Date()); 
+    game.start();
+};
+</script>
+</body>
+</html>
