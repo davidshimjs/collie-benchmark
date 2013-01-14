@@ -14,3 +14,5 @@ A simple rules for testing animation
 * Select a fastest result.
 * Each test are scored out of 100 points. When a test shows 60 FPS, It's scored 100 points.
 * Round off to the nearest whole number.
+
+https://github.com/davidshimjs/collie-benchmark/wiki/Performance-Benchmark
