@@ -51,20 +51,37 @@
 but, How much faster is it than other libraries?
 so I have tested a simple animation on mobile devices.</p>
 
-<p>A list of devices are shown below</p>
-
+<p><strong>A Simple specification of the test case</strong></p>
 <ul>
-<li>iPhone4 with iOS6</li>
-<li>iPhone4 with iOS4</li>
-<li>Galaxy S3 with Android 4.1.1</li>
-<li>Galaxy Note with Android 2.3</li>
-</ul><p>A simple rules for testing animation</p>
+<li>
+	The Rabbit has a width of 129.4 pixel and a height of 165 pixel each frame.<br />
+	<img src="http://jindo.dev.naver.com/collie/img/small/yame_walk.png" alt="rabbit" width="700" style="margin:0;padding:0;" /><br />
+	<a href="http://jindo.dev.naver.com/collie/img/small/yame_walk.png" target="_blank"><em>http://jindo.dev.naver.com/collie/img/small/yame_walk.png</em></a>
+</li>
+<li>There are 100 rabbits walking right. (Moving, Sprite Animation)</li>
+<li>The Screen has a width of 320 pixel and a height of 480 pixel.</li>
+<li>They will be always displayed inside of the screen. (the range of horizontal position is from 0 to (320 - 129.4))</li>
+<li>
+	You can check out a sample test case with Collie.js below<br />
+	<a href="http://davidshimjs.github.com/collie-benchmark/collie/?count=100"><em>http://davidshimjs.github.com/collie-benchmark/collie/?count=100</em></a>
+</li>
+</ul>
 
+<p><strong>A simple rules for testing animation</strong></p>
 <ul>
 <li>Select a fastest result.</li>
 <li>Each test are scored out of 100 points. When a test shows 60 FPS, It's scored 100 points.</li>
 <li>Round off to the nearest whole number.</li>
 </ul>
+
+<p><strong>A list of devices are shown below</strong></p>
+<ul>
+<li>iPhone4 with iOS6</li>
+<li>iPhone4 with iOS4</li>
+<li>Galaxy S3 with Android 4.1.1</li>
+<li>Galaxy Note with Android 2.3</li>
+</ul>
+
 
 <h3>A Report</h3>
 <p>
